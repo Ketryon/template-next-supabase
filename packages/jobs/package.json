@@ -1,0 +1,25 @@
+{
+  "name": "@ketryon/jobs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Trigger.dev background jobs",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "trigger dev",
+    "deploy": "trigger deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ketryon/db": "workspace:*",
+    "@trigger.dev/sdk": "^4.5.9"
+  },
+  "devDependencies": {
+    "@trigger.dev/build": "^4.5.9",
+    "@types/node": "^24.10.1",
+    "trigger.dev": "^4.5.9",
+    "typescript": "^5.9.3"
+  }
+}

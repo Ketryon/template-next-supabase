@@ -1,0 +1,25 @@
+{
+  "name": "@ketryon/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The data layer. Owns both Supabase clients, the DTOs and every query.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./jobs": "./src/jobs.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "types": "supabase gen types typescript --local > src/types.gen.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.111.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  }
+}

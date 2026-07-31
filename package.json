@@ -1,0 +1,31 @@
+{
+  "name": "template-next-supabase",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Next.js + Supabase + Trigger.dev template — the data layer is the product",
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:types": "pnpm --filter @ketryon/db types",
+    "db:lint": "supabase db lint --level warning",
+    "db:test": "supabase test db",
+    "jobs:dev": "pnpm --filter @ketryon/jobs dev",
+    "jobs:deploy": "pnpm --filter @ketryon/jobs deploy",
+    "clean": "pnpm -r exec rm -rf .next dist"
+  },
+  "devDependencies": {
+    "supabase": "^2.75.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp", "supabase", "unrs-resolver"]
+  }
+}
