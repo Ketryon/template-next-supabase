@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Next.js + Supabase + Trigger.dev template — the data layer is the product",
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.34.5",
   "engines": {
     "node": ">=20.19.0"
   },
