@@ -13,7 +13,8 @@ apps/web/          Next.js 16 — calls the DAL, owns no database code
 
 ```bash
 pnpm install
-cp .env.example .env
+cp .env.example apps/web/.env.local     # Next.js reads env from the app directory
+cp .env.example packages/jobs/.env      # the Trigger.dev CLI reads env from the jobs package
 pnpm db:start          # local Supabase stack (needs Docker)
 pnpm db:reset          # apply migrations + seed
 pnpm db:types          # regenerate packages/db/src/types.gen.ts
@@ -86,6 +87,7 @@ Also gone: all connection-pool management. `supabase-js` speaks HTTP to PostgRES
 | `pnpm dev` | run the web app |
 | `pnpm jobs:dev` | run Trigger.dev tasks locally |
 | `pnpm typecheck` | tsc across the workspace |
+| `pnpm lint` | ESLint (the web app) |
 | `pnpm db:start` / `db:stop` | local Supabase stack |
 | `pnpm db:reset` | re-apply migrations and seed |
 | `pnpm db:types` | regenerate `types.gen.ts` — run after every migration |
@@ -95,14 +97,22 @@ Also gone: all connection-pool management. `supabase-js` speaks HTTP to PostgRES
 ## Deployment notes
 
 - Pin the Vercel function region to the Supabase region. Cross-region turns every query into 70–100ms and Server Components make several per render.
-- `SUPABASE_SERVICE_ROLE_KEY` is server-only. Never `NEXT_PUBLIC_`, never reachable from a Client Component. The build asserts it does not appear in `.next/static`.
+- `SUPABASE_SERVICE_ROLE_KEY` is server-only. Never `NEXT_PUBLIC_`, never reachable from a Client Component. Worth checking that it does not appear in `.next/static` after a build.
 - Run `pnpm db:lint` in CI. The `auth_rls_initplan` and unindexed-FK advisors catch the two most expensive RLS mistakes before they reach production.
 - If you add a direct Postgres connection later, use the transaction-mode pooler (port 6543) for serverless and the direct URL (5432) for migrations. Transaction mode silently disables prepared statements and `LISTEN/NOTIFY`.
 
 ## Verified
 
-`pnpm install`, `pnpm typecheck` (3 packages), `pnpm --filter web build` and `pnpm lint` all pass on Node 20.19+ with Next 16.2.12, supabase-js 2.111, @supabase/ssr 0.12, Trigger.dev SDK 4.5, Zod 4.4.
+`pnpm install`, `pnpm typecheck` (3 packages) and `pnpm lint` pass with Next 16.4, React 19.3, supabase-js 2.117, @supabase/ssr 0.12, Trigger.dev SDK 4.5 and Zod 4.6.
 
-Build-boundary assertions checked against the emitted bundle: task definitions do not reach the Next.js build, and `SUPABASE_SERVICE_ROLE_KEY` does not appear in any client chunk.
+When last built (Next 16.2), the emitted bundle was checked by hand: task definitions did not reach the Next.js build, and `SUPABASE_SERVICE_ROLE_KEY` did not appear in any client chunk.
 
 **Not yet executed:** the SQL. `supabase/migrations/*`, `seed.sql` and the pgTAP tests have not been applied — this machine has no Docker and no Postgres server binary. Run `pnpm db:start && pnpm db:reset && pnpm db:test && pnpm db:lint` before trusting them.
+
+## Built by Ketryon
+
+Built and used by [Ketryon](https://www.ketryon.com) — a developer on subscription for founders.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
