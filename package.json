@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "description": "Next.js + Supabase + Trigger.dev template — the data layer is the product",
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@12.15.0",
   "engines": {
     "node": ">=20.19.0"
   },
